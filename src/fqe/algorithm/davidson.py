@@ -201,7 +201,7 @@ def davidsonliu_fqe(
         f_k.normalize()
         guess_vecs.append(f_k)
 
-    while len(guess_vecs) <= graph.lena() * graph.lenb() / 2:
+    while len(guess_vecs) <= graph.lena() * graph.lenb():
         if verbose:
             print()
         current_num_gv = len(guess_vecs)
@@ -314,6 +314,8 @@ def davidson_diagonalization(
         nroots=1,
         guess_vecs=None):
     norb = hamiltonian.dim()  # this should be the num_orbitals
+    if not isinstance(hamiltonian, fqe.restricted_hamiltonian.RestrictedHamiltonian):
+        norb //= 2
     nele = n_alpha + n_beta
     sz = n_alpha - n_beta
     wfn = fqe.Wavefunction([[nele, sz, norb]])
